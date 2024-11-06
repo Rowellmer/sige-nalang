@@ -1,50 +1,82 @@
-def add(x, y):
-    return x + y
+def display_data(data):
+    if not data:
+        print("No data available.")
+    else:
+        print("Current data entries:")
+        for i, entry in enumerate(data):
+            print(f"{i + 1}: {entry}")
 
-def subtract(x, y):
-    return x - y
+def add_single_entry(data):
+    entry = input("Enter the data entry to add: ")
+    data.append(entry)
+    print(f"'{entry}' has been added.")
 
-def multiply(x, y):
-    return x * y
+def add_multiple_entries(data):
+    entries = input("Enter multiple data entries separated by commas: ")
+    for entry in entries.split(','):
+        data.append(entry.strip())
+    print("Entries have been added.")
 
-def divide(x, y):
-    if y == 0:
-        return "Error! Division by zero."
-    return x / y
-
-def calculator():
-    print("Select operation:")
-    print("1. Add")
-    print("2. Subtract")
-    print("3. Multiply")
-    print("4. Divide")
-
-    while True:
-        choice = input("Enter choice (1/2/3/4): ")
-
-        if choice in ('1', '2', '3', '4'):
-            try:
-                num1 = float(input("Enter first number: "))
-                num2 = float(input("Enter second number: "))
-            except ValueError:
-                print("Invalid input! Please enter numeric values.")
-                continue
-            
-            if choice == '1':
-                print(f"{num1} + {num2} = {add(num1, num2)}")
-            elif choice == '2':
-                print(f"{num1} - {num2} = {subtract(num1, num2)}")
-            elif choice == '3':
-                print(f"{num1} * {num2} = {multiply(num1, num2)}")
-            elif choice == '4':
-                result = divide(num1, num2)
-                print(f"{num1} / {num2} = {result}")
+def delete_entry(data):
+    display_data(data)
+    try:
+        index = int(input("Enter the number of the entry to delete: ")) - 1
+        if 0 <= index < len(data):
+            deleted_entry = data.pop(index)
+            print(f"'{deleted_entry}' has been deleted.")
         else:
-            print("Invalid choice! Please select a valid operation.")
+            print("Invalid entry number.")
+    except ValueError:
+        print("Invalid input. Please enter a number.")
+
+def update_entry(data):
+    display_data(data)
+    try:
+        index = int(input("Enter the number of the entry to update: ")) - 1
+        if 0 <= index < len(data):
+            new_entry = input("Enter the new data entry: ")
+            data[index] = new_entry
+            print(f"Entry has been updated to '{new_entry}'.")
+        else:
+            print("Invalid entry number.")
+    except ValueError:
+        print("Invalid input. Please enter a number.")
+
+def reverse_data(data):
+    data.reverse()
+    print("Data has been reversed.")
+
+def main():
+    data = []
+    while True:
+        print("\nChoose an action:")
+        print("1. Add single data entry")
+        print("2. Add multiple data entries")
+        print("3. Display data")
+        print("4. Delete data")
+        print("5. Update data")
+        print("6. Reverse data")
+        print("7. Exit")
         
-        next_calculation = input("Do you want to perform another calculation? (yes/no): ")
-        if next_calculation.lower() != 'yes':
+        choice = input("Enter your choice (1-7): ")
+
+        if choice == '1':
+            add_single_entry(data)
+        elif choice == '2':
+            add_multiple_entries(data)
+        elif choice == '3':
+            display_data(data)
+        elif choice == '4':
+            delete_entry(data)
+        elif choice == '5':
+            update_entry(data)
+        elif choice == '6':
+            reverse_data(data)
+        elif choice == '7':
+            print("Exiting the program.")
             break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 7.")
 
 if __name__ == "__main__":
-    calculator()
+    main()
